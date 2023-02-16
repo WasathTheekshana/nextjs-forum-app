@@ -1,6 +1,6 @@
 function Nav() {
   return (
-    <div>Nav</div>
+    <div>Hello ponna yashas</div>
   )
 }
 
