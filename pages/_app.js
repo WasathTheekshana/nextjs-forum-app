@@ -1,5 +1,10 @@
-import '@/styles/globals.css'
+import Layouot from "@/components/Layouot";
+import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <Layouot>
+      <Component {...pageProps} />
+    </Layouot>
+  );
 }
