@@ -12,7 +12,7 @@ function Login() {
         try {
             const user = await signInWithPopup(auth, googleProvider)
             console.log(user);
-            route.push("/Dashboard");
+            route.push("/");
         } catch (error) {
             console.log(error);
         }
