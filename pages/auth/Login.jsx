@@ -1,12 +1,16 @@
 import { auth } from "@/utils/firebase-config"
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 import { useRouter } from "next/router"
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
 
 function Login() {
 
-    
     const route = useRouter();
 
+    const [user, loading] = useAuthState(auth);
+
+    //Sign in wiht google
     const googleProvider = new GoogleAuthProvider();
     const signInWithGoogle = async () => {
         try {
@@ -17,6 +21,14 @@ function Login() {
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        if (user) {
+            route.push("/")
+        } else {
+            console.log("Login")
+        }
+    }, [user])
 
     return (
         <div className="shadow-xl mt-32 py-10 text-gray-700 rounded-lg flex flex-col items-center">
