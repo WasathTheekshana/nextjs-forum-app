@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import Messege from "@/components/Messege";
@@ -14,14 +15,14 @@ export default function Home() {
     const collectionRef = collection(db, "posts");
     const q = query(collectionRef, orderBy("timestamp", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setAllPosts(snapshot.docs.map((doc) => ({ ...doc.data(), doc: doc.id })));
+      setAllPosts(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     });
     return unsubscribe;
   };
 
   useEffect(() => {
     getPosts();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -34,7 +35,13 @@ export default function Home() {
 
       <div className="my-12 text-lg font-medium">
         <h2 className="">See what other people are saying</h2>
-        {allPosts.map(post => <Messege {...post}/>)}
+
+        {allPosts.map((post) => (
+          <React.Fragment key={post.id}>
+            <Messege {...post}></Messege>
+          </React.Fragment>
+        ))}
+        
       </div>
     </>
   );

@@ -8,7 +8,7 @@ import Messege from '@/components/Messege';
 function Dashboard() {
 
   const [user, loading] = useAuthState(auth);
-  const [allPosts, setAllPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
   const route = useRouter();
 
 
@@ -16,9 +16,9 @@ function Dashboard() {
     if (loading) return <h1>Loading</h1>
     if (!user) return route.push("/auth/Login")
     const collectionRef = collection(db, 'posts');
-    const q = query(collectionRef, where("user", "==", user.uid), orderBy("timestamp", "desc"))
+    const q = query(collectionRef, where("user", "==", user.uid))
     const unsubcribe = onSnapshot(q, (snapshot) => {
-      setAllPosts(snapshot.docs.map((doc) => ({ ...doc.data(), doc: doc.id })))
+      setPosts(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     });
     return unsubcribe;
   }
@@ -28,19 +28,25 @@ function Dashboard() {
   }, [user, loading])
 
   //Delete Post
+  const deletePost = async (id) => {
+    const userDoc = doc(db, "posts", id);
+    await deleteDoc(userDoc);
+  }
 
 
 
   return (
     <div>
       <h1>Your Posts</h1>
-      {allPosts.map(post =>
-        <Messege key={post.id} {...post}>
-          <div className='flex gap-3'>
-            <p className='cursor-pointer text-red-500 font-medium'>Delete</p>
+      {posts.map((post) => (
+        <React.Fragment key={post.id}>
+
+          <Messege {...post}>
+            <button onClick={() => deletePost(post.id)} className='cursor-pointer text-red-500 font-medium'>Delete</button>
             <p className='cursor-pointer text-blue-500 font-medium'>Edit</p>
-          </div>
-        </Messege>)}
+          </Messege>
+        </React.Fragment>
+      ))}
     </div>
   )
 }

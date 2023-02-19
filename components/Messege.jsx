@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Messege({children, avatar, username, description}) {
+function Messege({children, avatar, username, description, key}) {
   return (
     <div className='bg-white p-8 border-b-2 rounded-lg '>
         <div className='flex items-center gap-2'>
