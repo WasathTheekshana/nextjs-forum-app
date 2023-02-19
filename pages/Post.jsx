@@ -44,6 +44,7 @@ function post() {
             username: user.displayName
         });
         setPost({ description: "" })
+        route.push("/")
     };
 
     const getData = async () => {
