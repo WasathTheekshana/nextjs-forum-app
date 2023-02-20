@@ -42,6 +42,10 @@ function post() {
             const docRef = doc(db, 'posts', post.id);
             const updatePost = { ...post, timestamp: serverTimestamp() };
             await updateDoc(docRef, updatePost);
+            toast.success("Post Updated", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1500,
+            });
             return route.push("/");
         } else {
             const collectionRef = collection(db, 'posts');
@@ -51,6 +55,10 @@ function post() {
                 user: user.uid,
                 avatar: user.photoURL,
                 username: user.displayName
+            });
+            toast.success("Post added", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1500,
             });
             setPost({ description: "" })
             route.push("/")

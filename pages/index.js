@@ -5,6 +5,7 @@ import Messege from "@/components/Messege";
 import { useEffect, useState } from "react";
 import { db } from "@/utils/firebase-config";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,10 +39,13 @@ export default function Home() {
 
         {allPosts.map((post) => (
           <React.Fragment key={post.id}>
-            <Messege {...post}></Messege>
+            <Messege {...post}>
+              <Link href={{pathname: `/${post.id}`, query: {...post}}}>
+                <button className="text-sm text-gray-500">Comments</button>
+              </Link>
+            </Messege>
           </React.Fragment>
         ))}
-        
       </div>
     </>
   );
