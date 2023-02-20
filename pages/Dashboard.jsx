@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { useRouter } from 'next/router';
 import { collection, onSnapshot, query, where, orderBy, doc, deleteDoc } from 'firebase/firestore';
 import Messege from '@/components/Messege';
+import Link from 'next/link';
 
 function Dashboard() {
 
@@ -40,14 +41,18 @@ function Dashboard() {
       <h1>Your Posts</h1>
       {posts.map((post) => (
         <React.Fragment key={post.id}>
-
           <Messege {...post}>
-            <button onClick={() => deletePost(post.id)} className='cursor-pointer text-red-500 font-medium'>Delete</button>
-            <p className='cursor-pointer text-blue-500 font-medium'>Edit</p>
+            <div className='flex flex-row gap-3'>
+              <button onClick={() => deletePost(post.id)} className='cursor-pointer text-red-500 font-medium'>Delete</button>
+              <Link href={{pathname: "/Post", query: post}}>
+                <button className='cursor-pointer text-blue-500 font-medium'>Edit</button>
+              </Link>
+            </ div>
           </Messege>
         </React.Fragment>
-      ))}
-    </div>
+      ))
+      }
+    </div >
   )
 }
 
